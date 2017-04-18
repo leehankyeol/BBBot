@@ -11,6 +11,23 @@ var bot = new Bot({
 var botUser = {};
 var channels = [];
 var places = [
+  '공수간',
+  '리퀴드 참프루',
+  '맥도날드',
+  '반룡산',
+  '반포식스',
+  '버거킹',
+  '브라운돈까스',
+  '서브웨이',
+  '선릉순대국',
+  '알로이타이',
+  '알탕',
+  '이화수 육개장',
+  '전집',
+  '제육쌈밥',
+  '채린',
+  '추어탕',
+  '평가옥',
 ];
 
 const _isChatMessage = function(message) {
@@ -38,7 +55,7 @@ bot.on('start', function() {
 
 bot.on('message', function(message) {
   if (_isChatMessage(message) &&
-    // _isChannelConversation(message) &&
+    _isChannelConversation(message) &&
     !_isFromBBBot(message) &&
     _isMentioningMeal(message)
   ) {
