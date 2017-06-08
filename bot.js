@@ -16,20 +16,18 @@ var places = [
   '동인동 칼국수(매운버섯칼국수)',
   '맥도날드',
   '반룡산',
-  '반포식스',
   '버거킹',
-  '브라운돈까스',
   '서브웨이',
   '석기정 부대찌개',
   '선릉 우리집만두',
   '소백 (주꾸미 볶음, 콩나물국밥)',
   '스모키살룬',
   '슬로우시티 집밥',
-  '선릉순대국',
   '알로이타이',
   '이화수 육개장',
   '진고래 (복국)',
   '탄(라멘, 돈까스)',
+  '토마토 라멘',
   '평가옥',
   '포스코 지하 김밥',
   '포스코 지하 백반',
@@ -74,6 +72,8 @@ bot.on('message', function(message) {
       })[0];
     })(message.channel);
     var place = places[Math.floor(Math.random() * places.length)];
-    bot.postMessageToChannel(channel.name, message, { as_user: true });
+    bot.postMessageToChannel(channel.name, `멍! ${place}! 멍!`, {
+      as_user: true
+    });
   }
 });
