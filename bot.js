@@ -1,42 +1,39 @@
 'use strict';
 
-var dotenv = require('dotenv').config();
-var Bot = require('slackbots');
+const dotenv = require('dotenv').config();
+const Bot = require('slackbots');
 
-var bot = new Bot({
+const bot = new Bot({
   token: process.env.BOT_API_KEY,
   name: 'bbbot'
 });
 
-var botUser = {};
-var channels = [];
-var places = [
-  '고운님 (제철 남도음식, 요일 백반, 7000원)',
-  '공부가 (중식)',
-  '동인동 칼국수 (매운버섯칼국수)',
+const botUser = {};
+const channels = [];
+const places = [
+  '고운님 요일 백반',
+  '동인동 칼국수',
   '맥도날드',
   '반룡산',
   '버거킹',
   '서브웨이',
   '석기정 부대찌개',
   '선릉 우리집만두',
-  '소백 (주꾸미 볶음, 콩나물국밥)',
+  '소백 주꾸미 볶음',
   '스모키살룬',
   '슬로우시티 집밥',
   '알로이타이',
-  '에머이 (쌀국수)',
-  '의령전원 (생선구이)',
+  '에머이 쌀국수',
+  '의령전원 생선구이',
   '이화수 육개장',
-  '진고래 (복국)',
-  '탄 (라멘, 돈까스)',
+  '진고래 복국',
+  '탄 라멘',
   '토마토 라멘',
   '평가옥',
   '포스코 지하 김밥',
   '포스코 지하 백반',
-  '포스코 19층 겐지야 (일식)',
-  '포스코 19층 휘닉스(중식당)',
   '하동관',
-  '호천탕 (메밀면, 돈까스)'
+  '호천탕 돈까스'
 ];
 
 const _isChatMessage = function(message) {
@@ -68,12 +65,12 @@ bot.on('message', function(message) {
     !_isFromBBBot(message) &&
     _isMentioningMeal(message)
   ) {
-    var channel = (function(channelId) {
+    const channel = (function(channelId) {
       return channels.filter(function(item) {
         return item.id === channelId;
       })[0];
     })(message.channel);
-    var place = places[Math.floor(Math.random() * places.length)];
+    const place = places[Math.floor(Math.random() * places.length)];
     bot.postMessageToChannel(channel.name, `멍! ${place}! 멍!`, {
       as_user: true
     });
