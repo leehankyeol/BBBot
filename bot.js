@@ -1,15 +1,15 @@
 'use strict';
 
 const dotenv = require('dotenv').config();
+const moment = require('moment');
 const Bot = require('slackbots');
 
-const bot = new Bot({
-  token: process.env.BOT_API_KEY,
-  name: 'bbbot'
-});
+const bot = new Bot({ token: process.env.BOT_API_KEY, name: 'bbbot' });
 
 const botUser = {};
-const channels = [];
+let lastUser = { at: moment() };
+let members = [];
+let channels = [];
 const places = [
   '고운님 요일 백반',
   '동인동 칼국수',
@@ -35,6 +35,7 @@ const places = [
   '하동관',
   '호천탕 돈까스'
 ];
+const rejectMessages = ['그만 찾아', '작작하자', '안알랴줌', '나도 밥 줘'];
 
 const _isChatMessage = function(message) {
   return message.type === 'message' && Boolean(message.text);
@@ -56,6 +57,9 @@ bot.on('start', function() {
   bot.getChannels().then(function(data) {
     channels = data.channels;
   });
+  bot.getUsers().then(data => {
+    members = data.members;
+  });
 });
 
 bot.on('message', function(message) {
@@ -65,14 +69,24 @@ bot.on('message', function(message) {
     !_isFromBBBot(message) &&
     _isMentioningMeal(message)
   ) {
-    const channel = (function(channelId) {
-      return channels.filter(function(item) {
-        return item.id === channelId;
-      })[0];
-    })(message.channel);
-    const place = places[Math.floor(Math.random() * places.length)];
-    bot.postMessageToChannel(channel.name, `멍! ${place}! 멍!`, {
-      as_user: true
-    });
+    const channel = channels.filter(
+      channel => channel.id == message.channel
+    )[0];
+    if (
+      message.user === lastUser.id &&
+      moment().isBefore(lastUser.at.add(10, 'minutes'))
+    ) {
+      bot.postMessageToChannel(
+        channel.name,
+        rejectMessages[Math.floor(Math.random() * rejectMessages.length)],
+        { as_user: true }
+      );
+    } else {
+      lastUser = { id: message.user, at: moment() };
+      const place = places[Math.floor(Math.random() * places.length)];
+      bot.postMessageToChannel(channel.name, `멍! ${place}! 멍!`, {
+        as_user: true
+      });
+    }
   }
 });
