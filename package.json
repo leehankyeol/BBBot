@@ -4,7 +4,8 @@
   "description": "BBBot for Slack",
   "main": "bot.js",
   "scripts": {
-    "start": "nodemon bot.js",
+    "start": "pm2 start ecosystem.config.js --watch",
+    "stop": "pm2 stop bbbot --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Lee Han Kyeol",
@@ -12,7 +13,6 @@
   "dependencies": {
     "dotenv": "^4.0.0",
     "moment": "^2.18.1",
-    "nodemon": "^1.11.0",
     "redis": "^2.8.0",
     "slackbots": "^1.0.2",
     "sprintf-js": "^1.1.1"
