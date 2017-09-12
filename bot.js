@@ -34,7 +34,7 @@ redisClient.on('connect', err => {
 
 const bot = new Bot({ token: process.env.BOT_API_KEY, name: BOT_NAME });
 
-const botUser = {};
+let botUser = {};
 let lastUser = { at: moment() };
 let members = [];
 let channels = [];
